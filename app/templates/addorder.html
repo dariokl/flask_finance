@@ -269,17 +269,18 @@ $(document).ready(function() {
     var fieldNum = 0;
     var fieldNum2 = 0;
     $("#addNewItemButton").click(function() { 
-    var newInput = $('<input type="text" id="qty_'+fieldNum+'"></input></br>' + '<input type="select" id="item_'+fieldNum+'"></input></br>') 
-    $(".modal-body").append(newInput); 
-    fieldNum++;
+    var newInput = $('<input type="text" class="form-control" id="qty_'+fieldNum+'" name="qty_'+fieldNum+'"></input></br>' + '<select class="form-control" type="select" id="item_'+fieldNum+'" name="item_'+fieldNum+'"></select></br>') 
+    $(".modal-body").after(newInput); 
     fieldNum++;
     });
     
-    var data = $('form').serialize()
-    $('#form').submit(function (e) {
-        console.log($(this).serialize());
-        $.post('/orderhandle', data)
-    })
+
+
+    $( "#form" ).on( "submit", function( event ) {
+  event.preventDefault();
+  console.log( $( this ).serialize() );
+  $.post('orderhandle', $(this).serialize())
+});
 
     
 })      

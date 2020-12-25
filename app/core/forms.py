@@ -41,3 +41,13 @@ class Search(FlaskForm):
     name = StringField('Search')
     submit = SubmitField('Trazi')
 
+class AddItem(FlaskForm):
+    name = StringField('Ime artikla', validators=[DataRequired()])
+    type = SelectField('Vrsta Artikla', validators=[DataRequired()], choices=[('Vrata', 'Vrata'), ('Nogari', 'Nogari'), ('Pl. Stola', 'Ploce stolova')])
+
+    submit = SubmitField('Dodaj artikal')
+
+
+class DeleteItem(FlaskForm):
+    id = IntegerField('Hidden')
+    submit2 = SubmitField('Obrisi')

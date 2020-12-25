@@ -524,7 +524,7 @@ body {
             <div class="sidebar-brand">
               <a href="#">pro sidebar</a>
               <div id="close-sidebar">
-                <i class="fas fa-times"></i>
+                <i class="fa fa-bars"></i>
               </div>
             </div>
             <a href="{{url_for('core.home') }}">
@@ -601,7 +601,21 @@ body {
                 </li>
 
                 <li class="header-menu">
-                  <span>Extra</span>
+                  <span>Artikli / Narudzbe</span>
+                  <li class="sidebar-dropdown">
+                    <a href="#">
+                      <i class="fa fa-briefcase"></i>
+                      <span>Sifrarnik</span>
+                     
+                    </a>
+                    <div class="sidebar-submenu">
+                      <ul>
+                        <li>
+                          <a href="{{url_for('core.add_item')}}">Artikli
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
                   
                 </li>
                 <li>
@@ -640,7 +654,7 @@ body {
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-warning alert-dismissible text-center" role="alert">
+        <div class="alert alert-success alert-dismissible text-center" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

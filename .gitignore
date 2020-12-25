@@ -2,3 +2,4 @@ __pycache__/
 venv_order/
 migrations/
 test.sqlite
+dev-database.sqlite

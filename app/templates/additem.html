@@ -254,14 +254,12 @@
         $('.material-icons').on('click', function() {
         const companyId = $(this).attr('id');
         $('#deleteEmployeeModal input[type="text"]').val(companyId)
-        $('#editEmployeeModal #id_edit').val(companyId)
         console.log(companyId)
         })
 
-
-
         $('#id').hide()
-        $('#id_edit').hide()
+
+        
     });
     </script>
     </head>
@@ -272,11 +270,11 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>Azuriraj <b>Racune</b></h2>
+                            <h2>Azuriraj <b>Artikle</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Dodaj novi Racun</span></a>
-              					
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Dodaj novi Artikal</span></a>
+                           				
                         </div>
                     </div>
                 </div>
@@ -289,17 +287,15 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>Ime Firme</th>
-                            <th>Broj Racuna</th>
-                            <th>Datum Racuna</th>
-                            <th>Valuta</th>
-                            <th>Iznos</th>
-                            <th>Datum Placanja</th>
-                            <th>Knjizi/Obrisi</th>
+                            <th>Ime Artikla</th>
+                            <th>Vrsta</th>
+                            <th>ID</th>
+                            <th>Obrisi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for bill in all %}
+                    
+                        {% for item in all %}
                         <tr>
                             <td>
                                 <span class="custom-checkbox">
@@ -307,21 +303,13 @@
                                     <label for="checkbox1"></label>
                                 </span>
                             </td>
-                            
-                            <td>{{bill.name}}</td>
-                            <td>{{bill.bill_number}}</td>
-                            <td>{{bill.bill_date}}</td>
-                            <td>{{bill.bill_due}}</td>
-                            <td>{{bill.bill_amount}} KM</td>
-                            {% if bill.bill_paid %}
-                            <td>{{bill.billing_date}}</td>
-                            {% else %}
-                            <td>Nema uplate </td>
-                            {% endif %}
-
+                            <td>{{item.name}}</td>
+                            <td>{{item.type}}</td>
+                            <td>{{item.id}}</td>
+                         
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" id='{{bill.id}}' data-toggle="tooltip" title="Uplati">attach_money</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i id='{{bill.id}}' class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                <a href=""><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i id='{{item.id}}' class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -340,31 +328,19 @@
                 <form method='POST'>
                     {{form.hidden_tag()}}
                     <div class="modal-header">						
-                        <h4 class="modal-title">Dodaj Firmu</h4>
+                        <h4 class="modal-title">Dodaj Artikal</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
              				
                         <div class="form-group">
-                            {{form.id_comp.label}}
-                            {{form.id_comp(class='form-control')}}
-                        </div>
-                        <div class="form-group">
                             {{form.name.label}}
                             {{form.name(class='form-control')}}
                         </div>
                         <div class="form-group">
-                            {{form.bill_date.label}}
-                            {{form.bill_date(class='form-control')}}
-                        </div>
-                        <div class="form-group">
-                            {{form.bill_due.label}}
-                            {{form.bill_due(class='form-control')}}
-                        </div>
-                        <div class="form-group">
-                            {{form.bill_amount.label}}
-                            {{form.bill_amount(class='form-control')}}
-                        </div>								
+                            {{form.type.label}}
+                            {{form.type(class='form-control')}}
+                        </div>							
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -378,34 +354,32 @@
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method='POST'>
-                    {{form3.hidden_tag()}}
-                    
+                <form>
                     <div class="modal-header">						
-                        <h4 class="modal-title">Knjizenje Fakture</h4>
+                        <h4 class="modal-title">Edit Employee</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">					
                         <div class="form-group">
-                            {{form3.date.label}}
-                           {{form3.date(class='form-control')}}
+                            <label>Name</label>
+                            <input type="text" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            {{form3.type.label}}
-                            {{form3.type(class='form-control')}}
+                            <label>Email</label>
+                            <input type="email" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            {{form3.note.label}}
-                            {{form3.note(class='form-control')}}
+                            <label>Address</label>
+                            <textarea class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" class="form-control" required>
                         </div>					
-                        <div class="form-group">
-                  
-                            {{form3.id_edit(class='form-control')}}
-                        </div>			
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        {{form3.submit3(class='btn btn-info', value='Knjizi')}}
+                        <input type="submit" class="btn btn-info" value="Save">
                     </div>
                 </form>
             </div>
@@ -418,13 +392,13 @@
                 <form method='POST'>
                     {{form2.hidden_tag()}}
                     <div class="modal-header">						
-                        <h4 class="modal-title">Obrisi racun</h4>
+                        <h4 class="modal-title">Obrisi Artikal</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">					
-                        <p>Da li ste sigurni da zelite obrisati racun ?</p>
+                        <p>Ukoliko obrisite firmu svi podaci vezani za Financijsko racunovodstvo biti ce obrisani !?</p>
                         {{form2.id()}}
-                        <p class="text-warning"><small>Nije moguce izvrsiti povrat.</small></p>
+                        <p class="text-warning"><small>Nije moguce izvrsiti povrat stanja !</small></p>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -436,7 +410,5 @@
             </div>
         </div>
     </div>
-
-    
 
     {% endblock content %}

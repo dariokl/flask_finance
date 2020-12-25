@@ -68,5 +68,30 @@ class Uplata(db.Model):
     faktura_id = db.Column(db.Integer, db.ForeignKey('fakture.id'), unique=True)
 
 
+class Article(db.Model):
+    __tablename__ = 'articles'
+    id = db.Column(db.Integer , primary_key=True)
+    name = db.Column(db.String)
+    type = db.Column(db.String)
 
+    placement_item = db.relationship('Placement', cascade="all, delete, delete-orphan")
+
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+    id = db.Column(db.Integer, primary_key=True)
+    bn = db.Column(db.String)
+    commission = db.Column(db.String)
+    week = db.Column(db.String)
+
+    placement = db.relationship('Placement', cascade="all, delete, delete-orphan")
+
+
+class Placement(db.Model):
+    __tablename__ = 'placements'
+    id = db.Column(db.Integer, primary_key=True)
+    qty = db.Column(db.Integer)
+
+    item_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
 

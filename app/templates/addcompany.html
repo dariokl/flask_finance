@@ -287,7 +287,7 @@
                                     <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>Name</th>
+                            <th>Ime </th>
                             <th>ID Broj</th>
                             <th>PDV Broj</th>
                             <th>Grad</th>
@@ -314,7 +314,7 @@
                             <td>{{company.postal}}</td>
                          
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="{{url_for('core.edit_company', id=company.id)}}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i id='{{company.id}}' class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             </td>
                         </tr>

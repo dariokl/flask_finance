@@ -11,7 +11,9 @@ class Company(db.Model):
     pdv_number = db.Column(db.Integer, unique=True)
     address = db.Column(db.String)
     city = db.Column(db.String)
-    postal = db.Column(db.String)
+    email = db.Column(db.String)
+    kontakt_tel = db.Column(db.String)
+    bank_number = db.Column(db.String)
     
     konto = db.Column(db.REAL, default=0)
 

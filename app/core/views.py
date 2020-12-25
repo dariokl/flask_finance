@@ -4,7 +4,7 @@ from . import core
 from sqlalchemy.exc import IntegrityError
 
 
-from .forms import AddCompany, DeleteCompany, AddBill, DeleteBill, EditBill, Search, AddItem, DeleteItem
+from .forms import AddCompany, DeleteCompany, AddBill, DeleteBill, EditBill, Search, AddItem, DeleteItem, OrderForm
 
 from ..models import Company, Faktura, Uplata, Article
 
@@ -30,7 +30,7 @@ def add_company():
 
     if form.submit.data and form.validate_on_submit:
         new = Company(name=form.name.data, id_number=form.id_number.data , pdv_number=form.pdv_number.data, \
-        address=form.address.data , city=form.city.data, postal=form.postal.data)
+        address=form.address.data , city=form.city.data, email=form.email.data, kontakt_tel=form.kontakt_tel.data, bank_number=form.bank_number.data)
         db.session.add(new)
         db.session.commit()
         db.session.close()
@@ -62,6 +62,8 @@ def edit_company(id):
         company.address = form.address.data
         company.city = form.city.data
         company.postal = form.postal.data
+        company.email = form.email.data
+        company.kontakt_tel = form.kontakt_tel.data
         db.session.commit()
         db.session.close()
         flash ('Uspjesno ste promijenili podatke o firmi !')
@@ -190,3 +192,18 @@ def add_item():
     return render_template('additem.html', form=form, form2=form2, all=all)
 
 
+@core.route('/addorder', methods=['POST', 'GET'])
+def add_order():
+
+
+
+    return render_template('addorder.html')
+
+
+@core.route('/orderhandle', methods=['POST', 'GET'])
+def order_handle():
+
+    if request.method == 'POST':
+        print(request.form)
+    
+    return {'alright': 'alright'}

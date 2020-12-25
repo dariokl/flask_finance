@@ -1,17 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, SelectField, FloatField
+from wtforms import StringField, IntegerField, SubmitField, SelectField, FloatField, FieldList, FormField, TextField
 from wtforms.validators import DataRequired, Length
 from markupsafe import Markup
 
 
 
 class AddCompany(FlaskForm):
-    name = StringField('Ime Firme', validators=[DataRequired(message='Obavezan unos imena Firme')])
-    id_number = IntegerField('ID Broj Firme', validators=[DataRequired(message='Obavezan ID broj Firme'), Length(min=13, message='ID Broj mora imati 13 cifri')])
-    pdv_number = IntegerField('PDV Broj', validators=[DataRequired(message='Obavezan PDV broj Firme'), Length(min=12, message='PDV broj mora imati 12 cifri')])
+    name = StringField('Ime Firme')
+    id_number = IntegerField('ID Broj Firme')
+    pdv_number = IntegerField('PDV Broj')
     address = StringField('Adresa firme')
     city = StringField('Grad')
-    postal = IntegerField('Postanski Broj')
+    bank_number = StringField('Broj Racuna')
+    email = StringField('Email Adresa')
+    kontakt_tel = StringField('Kontakt Tel.')
     submit = SubmitField('Dodaj')
 
 class DeleteCompany(FlaskForm):
@@ -51,3 +53,15 @@ class AddItem(FlaskForm):
 class DeleteItem(FlaskForm):
     id = IntegerField('Hidden')
     submit2 = SubmitField('Obrisi')
+
+class PlacementField(FlaskForm):
+    name = StringField('Ime artikla')
+    qty = IntegerField('Kolicina')
+
+
+class OrderForm(FlaskForm):
+    bestel = StringField('Bestelnummer')
+    commission = StringField('Commission Broj')
+    order_week = StringField('Order Week')
+    placement = FieldList(StringField())
+    submit = SubmitField('Dodaj Narudzbu')

@@ -228,50 +228,64 @@
     </style>
 <div class="modal-dialog">
     <div class="modal-content">
-        <form method='POST'>
-            {{form.hidden_tag()}}
+        <form method='POST' id='form'>
+    
             <div class="modal-header">						
-                <h4 class="modal-title">Izmijeni podatke Firme {{company.name}}</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Dodaj novu Narudzbu </h4>
+        <a href="#" class="btn btn-success" data-toggle="modal" id='addNewItemButton'><i class="material-icons">&#xE147;</i> <span>Artikal</span></a>
             </div>
             <div class="modal-body">
+        
                      
                 <div class="form-group">
-                    {{form.name.label}}
-                    {{form.name(class='form-control', value=company.name)}}
+
+
                 </div>
                 <div class="form-group">
-                    {{form.id_number.label}}
-                    {{form.id_number(class='form-control', value=company.id_number)}}
+    
+
                 </div>
                 <div class="form-group">
-                    {{form.pdv_number.label}}
-                    {{form.pdv_number(class='form-control', value=company.pdv_number)}}
+              
                 </div>
                 <div class="form-group">
-                    {{form.address.label}}
-                    {{form.address(class='form-control', value=company.address)}}
+                 
                 </div>
                 <div class="form-group">
-                    {{form.city.label}}
-                    {{form.city(class='form-control', value=company.city)}}
+
                 </div>
                 <div class="form-group">
-                    {{form.email.label}}
-                    {{form.email(class='form-control', value=company.email)}}
-                </div>	
-                <div class="form-group">
-                    {{form.kontakt_tel.label}}
-                    {{form.kontakt_tel(class='form-control', value=company.kontakt_tel)}}
-                </div>										
-            </div>									
-            </div>						
+
+                </div>								
             </div>
             <div class="modal-footer">
-               
-                {{form.submit(class='btn btn-success', value='Izmijeni')}}
+            <button id='kar' type='submit'>az</button>
             </div>
         </form>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+    var fieldNum = 0;
+    var fieldNum2 = 0;
+    $("#addNewItemButton").click(function() { 
+    var newInput = $('<input type="text" id="qty_'+fieldNum+'"></input></br>' + '<input type="select" id="item_'+fieldNum+'"></input></br>') 
+    $(".modal-body").append(newInput); 
+    fieldNum++;
+    fieldNum++;
+    });
+    
+    var data = $('form').serialize()
+    $('#form').submit(function (e) {
+        console.log($(this).serialize());
+        $.post('/orderhandle', data)
+    })
+
+    
+})      
+
+
+
+
+</script>
 {% endblock %}

@@ -264,7 +264,7 @@
     </script>
     </head>
     <body>
-    <div class="container-xl">
+    <div class="container-fluid">
         <div class="table-responsive">
             <div class="table-wrapper">
                 <div class="table-title">
@@ -290,9 +290,11 @@
                             <th>Ime </th>
                             <th>ID Broj</th>
                             <th>PDV Broj</th>
+                            <th>Broj Racuna</th>
                             <th>Grad</th>
                             <th>Adresa</th>
-                            <th>Postanski Broj</th>
+                            <th>Email</th>
+                            <th>Kontak tel</th>
                             <th>Uredi/Obrisi</th>
                         </tr>
                     </thead>
@@ -309,9 +311,12 @@
                             <td><a href="{{url_for('core.bills', id=company.id)}}">{{company.name}}</a></td>
                             <td>{{company.id_number}}</td>
                             <td>{{company.pdv_number}}</td>
+                            <td>{{company.bank_number}}</td>
                             <td>{{company.city}}</td>
                             <td>{{company.address}}</td>
-                            <td>{{company.postal}}</td>
+                            <td>{{company.email}}</td>
+                            <td>{{company.kontakt_tel}}</td>
+       
                          
                             <td>
                                 <a href="{{url_for('core.edit_company', id=company.id)}}"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -334,7 +339,7 @@
                 <form method='POST'>
                     {{form.hidden_tag()}}
                     <div class="modal-header">						
-                        <h4 class="modal-title">Dodaj Firmu</h4>
+                        <h4 class="modal-title">Dodaj Artikal</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -352,6 +357,10 @@
                             {{form.pdv_number(class='form-control')}}
                         </div>
                         <div class="form-group">
+                            {{form.bank_number.label}}
+                            {{form.bank_number(class='form-control')}}
+                        </div>
+                        <div class="form-group">
                             {{form.address.label}}
                             {{form.address(class='form-control')}}
                         </div>
@@ -360,9 +369,13 @@
                             {{form.city(class='form-control')}}
                         </div>
                         <div class="form-group">
-                            {{form.postal.label}}
-                            {{form.postal(class='form-control')}}
-                        </div>								
+                            {{form.email.label}}
+                            {{form.email(class='form-control')}}
+                        </div>
+                        <div class="form-group">
+                            {{form.kontakt_tel.label}}
+                            {{form.kontakt_tel(class='form-control')}}
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">

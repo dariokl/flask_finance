@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request, flash
+from flask import render_template, flash, redirect, url_for, request, flash, jsonify, json
 from app import db
 from . import core
 from sqlalchemy.exc import IntegrityError
@@ -6,9 +6,8 @@ from sqlalchemy.exc import IntegrityError
 
 from .forms import AddCompany, DeleteCompany, AddBill, DeleteBill, EditBill, Search, AddItem, DeleteItem, OrderForm
 
-from ..models import Company, Faktura, Uplata, Article
-
-
+from ..models import Company, Faktura, Uplata, Article, Placement, Order
+from sqlalchemy.sql import func
 
 @core.route('/', methods=['POST', 'GET'])
 def home():
@@ -204,6 +203,155 @@ def add_order():
 def order_handle():
 
     if request.method == 'POST':
-        print(request.form)
+        dict = request.form.to_dict(flat=False)
+ 
+        if dict['hitno'][0] == '1':
+            new = Order(bn=dict['bn'][0], commission=dict['cn'][0], week=dict['week'][0], napomena=dict['napomena'][0], date=dict['datum'][0], hitno=True)
+            db.session.add(new)
+            db.session.commit()
+            obj = db.session.query(Order).order_by(Order.id.desc()).first()
+            id = obj.id
+            f = request.form
+            list = {'id': [], 'name': []}
+            for key in f.keys():
+                for value in f.getlist(key):
+                    if 'qty' in key:
+                        list['id'].append(value)
+                    elif 'item' in key:
+                        list['name'].append(value)
+
+            
+            for a, b in zip(list['id'], list['name']):
+                place = Placement(qty=a, name=b, order_id=id)
+                db.session.add(place)
+                db.session.commit()
+                db.session.close()
+        
+        else:
+            new = Order(bn=dict['bn'][0], commission=dict['cn'][0], week=dict['week'][0], napomena=dict['napomena'][0], date=dict['datum'][0])
+            db.session.add(new)
+            db.session.commit()
+            obj = db.session.query(Order).order_by(Order.id.desc()).first()
+            id = obj.id
+            f = request.form
+            list = {'id': [], 'name': []}
+            for key in f.keys():
+                for value in f.getlist(key):
+                    if 'qty' in key:
+                        list['id'].append(value)
+                    elif 'item' in key:
+                        list['name'].append(value)
+
+            
+            for a, b in zip(list['id'], list['name']):
+                place = Placement(qty=a, name=b, order_id=id)
+                db.session.add(place)
+                db.session.commit()
+                db.session.close()
+                    
     
-    return {'alright': 'alright'}
+    return {'message': 'ok'}
+
+
+@core.route('/itemslist', methods=['POST', 'GET'])
+def items_list():
+
+    all = db.session.query(Article).all()
+
+    data = {'results' : []}
+
+    for item in all:
+        data['results'].append({'id': item.name, 'text': item.name})
+
+    jsonified_data = json.dumps(data)
+
+    return jsonified_data
+
+
+@core.route('/listorder', methods=['GET', 'POST'])
+def list_order():
+
+    all = db.session.query(Order).all()
+
+    form2 = DeleteCompany()
+
+    if form2.submit2.data and form2.validate_on_submit:
+        delete = db.session.query(Order).filter(Order.id == form2.id.data).first()
+        db.session.delete(delete)
+        db.session.commit()
+        db.session.close()
+        flash ('Uspjesno ste izbrisali narudzbu')
+        return redirect(url_for('core.list_order'))
+
+    return render_template('listorder.html', all=all, form2=form2)
+
+@core.route('/readorder/<int:id>', methods=['GET', 'POST'])
+def read_order(id):
+
+    order = db.session.query(Order).filter(Order.id == id).first()
+    total = 0
+    for i in order.placement:
+        total += i.qty
+
+
+    return render_template('orderitems.html', order=order, total=total)
+
+
+@core.route('/weekly', methods=['POST', 'GET'])
+def weekly():
+
+    form = Search()
+
+    if form.submit.data and form.validate_on_submit:
+        print(form.name.data)
+
+        return redirect(url_for('core.report', name=form.name.data))
+
+    return render_template('searchnar.html', form=form)
+
+@core.route('/report/<name>', methods=['POST', 'GET'])
+def report(name):
+
+    last = '2021-W' + name
+    orders = db.session.query(Order).filter(Order.week == last).all()
+
+    list = []
+   
+    for order in orders:
+        for item in order.placement:
+            list.append((item.name, item.qty))
+
+    total = 0
+    num_dict = {}
+    for t in list:
+        if t[0] in num_dict:
+            num_dict[t[0]] = num_dict[t[0]]+t[1]
+        else:
+            num_dict[t[0]] = t[1]
+
+    return render_template('weekly.html', orders=orders, num_dict=num_dict, name=name)
+
+
+@core.route('/hitno', methods=['GET', 'POST'])
+def hitno():
+
+    orders = db.session.query(Order).filter(Order.hitno == True).all()
+
+    list = []
+    name = 'HITNO'
+   
+    for order in orders:
+        for item in order.placement:
+            list.append((item.name, item.qty))
+
+    total = 0
+    num_dict = {}
+    for t in list:
+        if t[0] in num_dict:
+            num_dict[t[0]] = num_dict[t[0]]+t[1]
+        else:
+            num_dict[t[0]] = t[1]
+    print(num_dict)
+
+    return render_template('weekly.html', orders=orders, num_dict=num_dict, name=name)
+

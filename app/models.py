@@ -73,10 +73,10 @@ class Uplata(db.Model):
 class Article(db.Model):
     __tablename__ = 'articles'
     id = db.Column(db.Integer , primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String, unique=True)
     type = db.Column(db.String)
 
-    placement_item = db.relationship('Placement', cascade="all, delete, delete-orphan")
+
 
 
 class Order(db.Model):
@@ -85,6 +85,9 @@ class Order(db.Model):
     bn = db.Column(db.String)
     commission = db.Column(db.String)
     week = db.Column(db.String)
+    date = db.Column(db.String)
+    napomena = db.Column(db.TEXT)
+    hitno = db.Column(db.Boolean, default=False)
 
     placement = db.relationship('Placement', cascade="all, delete, delete-orphan")
 
@@ -93,7 +96,7 @@ class Placement(db.Model):
     __tablename__ = 'placements'
     id = db.Column(db.Integer, primary_key=True)
     qty = db.Column(db.Integer)
+    name = db.Column(db.String)
 
-    item_id = db.Column(db.Integer, db.ForeignKey('articles.id'))
     order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
 

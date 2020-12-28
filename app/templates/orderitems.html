@@ -224,134 +224,105 @@
     }	
     .modal form label {
         font-weight: normal;
-    }
-
-    .select2-selection {
-  -webkit-box-shadow: 0;
-  box-shadow: 0;
-  background-color: #fff;
-  border: 0;
-  border-radius: 0;
-  color: #555555;
-  font-size: 14px;
-  outline: 0;
-  min-height: calc(1.5em + .75rem + 5px);
-  margin-top: 0.5rem;
-  text-align: left;
-}
+    }	
     </style>
-        <button id='addNewItemButton' class='btn btn-success'><i class='fa fa-plus'></i></button>
-<form id='form'>
-    <div class="form-group">
-
-      <label for="exampleFormControlInput1">Bestelnummber</label>
-      <input type="text" class="form-control" name='bn' id="exampleFormControlInput1" placeholder="">
-    </div>
-    <div class="form-group">
-
-        <label for="commission">Commission Broj</label>
-        <input type="text" class="form-control" name='cn' id="commision" placeholder="">
-      </div>
-      <div class="form-group">
-
-        <label for="rok">Rok Dostave</label>
-        <input type="week" name="week" id="rok" class='form-control'
-      >
-      </div>
-      <div class="form-group">
-
-        <label for="datum">Datum Narudzbe</label>
-        <input type="datum" name="datum" id="rok" class='form-control'
-      >
-      </div>
-      <div class="form-group">
-
-
-        <select name="hitno" id="hitno">
-          <option value="0">Ne</option>
-          <option value="1">Da</option>
+    <script>
+    $(document).ready(function(){
+        // Activate tooltip
+        $('[data-toggle="tooltip"]').tooltip();
         
-        </select>
-        <label for="hitno">Hitno !</label>
-      </div>
-    <div class="form-group">
-      <label for="napomena">Napomena</label>
-      <textarea class="form-control" name='napomena' id="napomena" rows="3"></textarea>
+        // Select/Deselect checkboxes
+        var checkbox = $('table tbody input[type="checkbox"]');
+        $("#selectAll").click(function(){
+            if(this.checked){
+                checkbox.each(function(){
+                    this.checked = true;                        
+                });
+            } else{
+                checkbox.each(function(){
+                    this.checked = false;                        
+                });
+            } 
+        });
+        checkbox.click(function(){
+            if(!this.checked){
+                $("#selectAll").prop("checked", false);
+            }
+        });
+
+
+        $('.material-icons').on('click', function() {
+        const companyId = $(this).attr('id');
+        $('#deleteEmployeeModal input[type="text"]').val(companyId)
+        console.log(companyId)
+        })
+
+        $('#id').hide()
+
+        
+    });
+    </script>
+    </head>
+<body>
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Pregled narudzbe Bestelnummer <b>{{order.bn}}</b></h2>
+                            <span>Datum Narudzbe : {{order.date }}</span><br>
+                            <span>Dostava :  {{order.week}}</span><br>
+                        </div>
+                        <div class="col-sm-6">
+                          
+                           				
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
+                                </span>
+                            </th>
+                            <th>Naziv artikla</th>
+                            <th> Kolicina </th>
+                            <th>Obrisi</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.placement %}
+                        <tr>
+                            <td>
+                                <span class="custom-checkbox">
+                                    <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                    <label for="checkbox1"></label>
+                                </span>
+                            </td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.qty}}</td>
+        
+                         
+                            <td>
+                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i id='{{item.id}}' class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <span>Ukupno : {{total}}</span>
+            </div>
+        </div>        
     </div>
-    <div class="row">
-        <div class="col add2">
-          
-        </div>
-        <div class="col add1">
-  
-        </div>
-      </div>
-      <button class='mt-2 btn btn-success' type='submit'>Dodaj Narudzbu</button>
-      </div>
-
-  </form>
 
 
 
-<script>
-$(document).ready(function() {
-    
-    function initializeSelect2(selectElementObj) {
-    selectElementObj.select2({
-        ajax: { 
-                url: "/itemslist",
-                type: "POST",
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    console.log(params)
-                    return {
-                        searchTerm: params.term
-                    
-                    };
-                },
-                processResults: function (response) {
-                    return {
-                        results: response.results
-                    };
-                },
-                
-        },
-    });
-  }
-    var fieldNum = 0;
-    var fieldNum2 = 0;
-    $("#addNewItemButton").click(function() { 
-    var newInput = $('<input placeholder="Kolicina" type="text" class="mt-2 form-control" id="qty_'+fieldNum+'" name="qty_'+fieldNum+'"></input></br>' + '<select class="form-control" type="select" id="item_'+fieldNum+'" name="item_'+fieldNum+'"></select></br>') 
-    $(".add1").append(newInput[0]);
-    $('.add2').append(newInput[2]);
-    initializeSelect2($(newInput[2]))
-    fieldNum++;
-    });
-    
-    const openAppRoute = (route) => {
-  //    Summary:
-  //        Helper function for developers to navigation 
-  //        to a different route programmatically.
-  hashHistory.push(route);
-};
-window.openAppRoute = openAppRoute;
-
-$( "#form" ).on( "submit", function( event ) {
-  event.preventDefault();
-  console.log( $( this ).serialize() );
-  $.post('orderhandle', $(this).serialize())
-});
-
-
-
-
-
-    
-})      
-
-
-
-
-</script>
-{% endblock %}
+    {% endblock content %}

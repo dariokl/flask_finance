@@ -270,7 +270,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2>ZBIRNI PRIKAZ NARUDZBI ZA SEDMICU <b>{{name}}</b></h2>
+                            <h2>KROJNA LISTA ZA SEDMICU <b>{{name}}</b></h2>
                         </div>
                         <div class="col-sm-6">
                            
@@ -283,33 +283,34 @@
                         <tr>
                             <th>
                                 <span class="custom-checkbox">
-             
+                                    <input type="checkbox" id="selectAll">
+                                    <label for="selectAll"></label>
                                 </span>
                             </th>
-                            <th>Artikal </th>
-                            <th>Kolicina</th>
-                            <th></th>
+                            <th>Vrsta materijala </th>
+                            <th>Broj komada</th>
+                            <th>Metara</th>
+                      =
                         </tr>
                     </thead>
                     <tbody>
+                 
                     
-                        {% for k, v in num_dict.items() %}
+                        {% for k,v  in material_dict.items() %}
                         <tr>
                             <td>
                                 <span class="custom-checkbox">
-       
+              
                                 </span>
                             </td>
             
                             <td>{{k}}</td>
-                            <td>{{v}}</td>
+                            <td>{{v[0]}}</td>
+                            <td>{{v[1]}}</td>
 
        
                          
-                            <td>
-                                <a href=""><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i id='' class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
+
                         </tr>
                         {% endfor %}
                         
@@ -320,66 +321,5 @@
             </div>
         </div>        
     </div>
-    <hr>
-    <h1 class='text-center'> Pregled Pojedinacnih Narudzbi</h1>
-    <div class="container">
-        {% for order in orders %}
-        <div class="table-responsive">
-            <div class="table-wrapper">
-                <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h2>Narudzba bestell <b>{{order.bn}}</b></h2>
-                            <span> Datum Narudzbe:{{order.date}}</span><br>
-                            <span> Dostava / Sedmica {{order.week}}</span><br>
-                            <hr>
-                            <span> Napomena: {{order.napomena}} </span>
-                        </div>
-                        <div class="col-sm-6">
-                          
-                           				
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="custom-checkbox">
-
-                                </span>
-                            </th>
-                            <th>Artikal</th>
-                            <th>Kolicina</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in order.placement %}
-                        <tr>
-                            <td>
-                                <span class="custom-checkbox">
-                      
-                                </span>
-                            </td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.qty}}</td>
-           
-                            <td>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i id='{{item.id}}' class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        
-                    </tbody>
-                </table>
-                <div class="clearfix">
-            </div>
-        </div>  
-        {% endfor %}
-      
-    </div>
-
-
 
     {% endblock content %}

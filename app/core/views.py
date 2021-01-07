@@ -7,6 +7,7 @@ from .forms import AddCompany, DeleteCompany, AddBill, DeleteBill, EditBill, Sea
 
 from ..models import Company, Faktura, Uplata, Article, Placement, Order
 from sqlalchemy.sql import func
+from collections import OrderedDict
 
 
 @core.route('/', methods=['POST', 'GET'])
@@ -212,7 +213,23 @@ def add_item():
 
     return render_template('additem.html', form=form, form2=form2, all=all)
 
+@core.route('/edititem/<int:id>', methods=['POST', 'GET'])
+def edit_item(id):
 
+    form = AddItem()
+
+    item = db.session.query(Article).filter(Article.id == id).first()
+
+    if form.submit.data and form.validate_on_submit:
+        item.name = form.name.data
+        item.type = form.type.data
+        db.session.commit()
+        db.session.close()
+        flash ('Uspjesno ste iznajmili artikal')
+
+        return redirect(url_for('core.add_item'))
+
+    return render_template('edititem.html', form=form, item=item)
 @core.route('/addorder', methods=['POST', 'GET'])
 def add_order():
 
@@ -302,7 +319,7 @@ def items_list():
 @core.route('/listorder', methods=['GET', 'POST'])
 def list_order():
 
-    all = db.session.query(Order).order_by(Order.date.desc()).all()
+    all = db.session.query(Order).order_by(Order.id.desc()).all()
 
     form2 = DeleteCompany()
 
@@ -338,7 +355,6 @@ def weekly():
     form = Search()
 
     if form.submit.data and form.validate_on_submit:
-        print(form.name.data)
 
         return redirect(url_for('core.report', name=form.name.data))
 
@@ -406,6 +422,100 @@ def material(name):
     im just coding super fast and i need solution ASAP , in future this could be converted to table to 
     minimize amount of code 
     """
+    material = {
+        "D4 2559 x 920": [
+            {'40x20x2559mm': (2559, 2),
+             '40x20x880mm': (880, 1),
+             '40x60x880mm': (880, 1),
+             'F40x5x880mm': (880, 3),
+             '15x15x879mm': (879, 16),
+             '15x15x615mm': (615, 16),
+             'Staklo 872x608': (0, 4)
+             }],
+        "D4 2559 x 820": [
+            {
+                '40x20x2259mm': (2259, 2),
+                '40x20x780mm': (780, 1),
+                '40x60x780mm': (780, 1),
+                'F40x5x780mm': (780, 3),
+                '15x15x779mm': (779, 16),
+                '15x15x615mm': (615, 16),
+                'Staklo 772x608': (0, 4)
+            }
+        ],
+        "D4 2294 x 920": [
+            {'40x20x2294mm': (2294, 2),
+             '40x20x880mm': (880, 1),
+             '40x60x880mm': (880, 1),
+             'F40x5x880mm': (880, 3),
+             '15x15x879mm': (879, 16),
+             '15x15x549mm': (549, 16),
+             'Staklo 872x542': (0, 4)
+
+             }],
+        "D4 2294 x 820":
+        [
+            {'40x20x2294mm': (2294, 2),
+             '40x20x780mm': (780, 1),
+             '40x60x780mm': (780, 1),
+             'F40x5x780mm': (780, 3),
+             '15x15x779mm': (779, 16),
+             '15x15x549mm': (549, 16),
+             'Staklo 772x542': (0, 4)
+
+             }
+        ],
+        'D3 2294 x 920': [
+            {
+                '40x20x2294mm': (2994, 2),
+                '40x20x880mm': (880, 1),
+                '40x60x880mm': (880, 1),
+                'F40x5x880mm': (880, 2),
+                '15x15x879mm': (879, 12),
+                '15x15x733.5mm': (733.5, 12),
+                'Staklo 872x727': (0, 3)
+            }
+        ],
+        "DK 2559 x 920": [
+            {
+                '40x20x2294mm': (2294, 2),
+                '40x20x880mm': (880, 1),
+                '40x60x880mm': (880, 1),
+                'F40x50x880mm': (880, 2),
+                '15x15x879mm': (879, 12),
+                '15x15x733.5mm': (733.5, 12),
+                'Staklo 872x727': (0, 3)
+            }
+        ],
+        "DK 2294 x 820": [
+            {
+                '40x20x2994mm': (2994, 2),
+                '40x20x780mm': (780, 1),
+                '40x60x780mm': (780, 1),
+                'F40x5x2214mm': (2214, 1),
+                'F40x5x195mm': (195, 1),
+                'F40x5x580mm': (580, 1),
+                '15x15x194mm': (194, 8),
+                '15x15x735mm': (735, 8),
+                '15x15x1473mm': (1473, 8),
+                '15x15x579mm': (579, 8),
+                'Staklo 187x728': (0, 1),
+                'Staklo 572x728': (0, 1),
+                'Staklo 187x1465': (0, 1),
+                'Staklo 572x1465': (0, 1)
+            }
+        ],
+        'P4 2575 x 455': [
+            {
+                '40x20x2575mm': (2575, 1),
+                '40x20x2479mm': (2479, 1),
+                'F40X5X415mm': (415, 3),
+                '15X15X414mm': (414, 16),
+                '15x15x615mm': (615, 16),
+                'Staklo 407x608': (0, 4),
+            }
+        ]
+    }
 
     last = '2021-W' + name
     orders = db.session.query(Order).filter(Order.week == last).all()
@@ -421,15 +531,13 @@ def material(name):
         else:
             num_dict[t[0]] = t[1]
         
-    material = {"D4 2294 x 820": [{'Sipka 40x20 720mm' : (720, 4), 'Zica': (1, 2)}],
-    "D3 2294 x 920": [{'Sipka 40x20 720mm' : (720, 4)}]}
+
 
     a = [(material[key], num_dict[key])for key in num_dict.keys() if key in material]
     final_list = []
 
     for i in a:
         for k, v in i[0][0].items():
-            print(k, v)
             final_list.append((k, v[1] * i[1], (v[0] * i[1] / 100)))
             
 
@@ -439,6 +547,32 @@ def material(name):
             material_dict[t[0]] = ((t[1] + t[1]), (t[2] +t[2]))
         else:
             material_dict[t[0]] = (t[1] , t[2])
+        
+    
+    list_15 = []
+    list_4020 = []
+    list_4060 = []
+    list_f = []
+    dict1 = OrderedDict(sorted(material_dict.items()))
+    for k,v in dict1.items():
+        if '15x15' in k:
+            list_15.append(v[1])
+        elif '40x20' in k:
+            list_4020.append(v[1])
+        elif '40x60' in k:
+            list_4060.append(v[1])
+        elif 'F40x5' in k:
+            list_f.append(v[1])
 
-    return render_template('material.html', orders=orders, name=name, material_dict=material_dict)
+    return render_template('material.html', orders=orders, name=name, material_dict=dict1, list_15=sum(list_15), list_4020=sum(list_4020),list_4060=sum(list_4060), list_f=sum(list_f))
+
+@core.route('/materialsrc', methods=['GET', 'POST'])
+def material_search():
+
+    form = Search()
+
+    if form.submit.data and form.validate_on_submit:
+        return redirect(url_for('core.material', name=form.name.data))
+    
+    return render_template('searchmat.html', form=form)
 

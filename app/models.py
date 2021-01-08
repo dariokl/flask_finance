@@ -6,9 +6,9 @@ class Company(db.Model):
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, index=True, unique=True)
-    id_number = db.Column(db.Integer, unique=True)
-    pdv_number = db.Column(db.Integer, unique=True)
+    name = db.Column(db.String, index=True)
+    id_number = db.Column(db.Integer)
+    pdv_number = db.Column(db.Integer)
     address = db.Column(db.String)
     city = db.Column(db.String)
     email = db.Column(db.String)
@@ -73,7 +73,7 @@ class Uplata(db.Model):
 class Article(db.Model):
     __tablename__ = 'articles'
     id = db.Column(db.Integer , primary_key=True)
-    name = db.Column(db.String, unique=True)
+    name = db.Column(db.String)
     type = db.Column(db.String)
 
 
@@ -88,6 +88,8 @@ class Order(db.Model):
     date = db.Column(db.String)
     napomena = db.Column(db.TEXT)
     hitno = db.Column(db.Boolean, default=False)
+    shipped = db.Column(db.Boolean, default=False)
+
 
     placement = db.relationship('Placement', cascade="all, delete, delete-orphan")
 

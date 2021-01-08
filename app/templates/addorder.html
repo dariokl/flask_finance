@@ -1,5 +1,11 @@
 {% extends 'home.html' %}
 {% block content %}
+<style>
+    .select2 {
+        margin-top: 0.5rem;
+    }
+
+</style>
 <button id='addNewItemButton' class='btn btn-success'><i class='fa fa-plus'></i></button>
 <form id='form'>
     <div class="form-group">
@@ -37,10 +43,10 @@
         <textarea class="form-control" name='napomena' id="napomena" rows="3"></textarea>
     </div>
     <div class="row">
-        <div class="col add2">
+        <div class="col-6 add2">
 
         </div>
-        <div class="col add1">
+        <div class="col-6 add1">
 
         </div>
     </div>
@@ -68,7 +74,7 @@
         var fieldNum = 0;
         var fieldNum2 = 0;
         $("#addNewItemButton").click(function () {
-            var newInput = $('<input placeholder="Kolicina" type="text" class="mt-2 form-control" id="qty_' + fieldNum + '" name="qty_' + fieldNum + '"></input></br>' + '<select class="form-control" type="select" id="item_' + fieldNum + '" name="item_' + fieldNum + '"></select></br>')
+            var newInput = $('<input placeholder="Kolicina" type="text" class="mt-2 form-control" id="qty_' + fieldNum + '" name="qty_' + fieldNum + '" style="height: 28px;"></input></br>' + '<select class="form-control" type="select" id="item_' + fieldNum + '" name="item_' + fieldNum + '"></select></br>')
             $(".add1").append(newInput[0]);
             $('.add2').append(newInput[2]);
             initializeSelect2($(newInput[2]))

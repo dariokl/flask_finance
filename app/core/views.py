@@ -213,6 +213,7 @@ def add_item():
 
     return render_template('additem.html', form=form, form2=form2, all=all)
 
+
 @core.route('/edititem/<int:id>', methods=['POST', 'GET'])
 def edit_item(id):
 
@@ -225,11 +226,13 @@ def edit_item(id):
         item.type = form.type.data
         db.session.commit()
         db.session.close()
-        flash ('Uspjesno ste iznajmili artikal')
+        flash('Uspjesno ste iznajmili artikal')
 
         return redirect(url_for('core.add_item'))
 
     return render_template('edititem.html', form=form, item=item)
+
+
 @core.route('/addorder', methods=['POST', 'GET'])
 def add_order():
 
@@ -409,8 +412,8 @@ def hitno():
         else:
             num_dict[t[0]] = t[1]
 
-
     return render_template('weekly.html', orders=orders, num_dict=num_dict, name=name)
+
 
 @core.route('/material/<name>', methods=['GET', 'POST'])
 def material(name):
@@ -423,19 +426,19 @@ def material(name):
     minimize amount of code 
     """
     material = {
-        #Uredu
+        # Uredu
         "D4 2559 x 920": [
             {
-            '40x20x2559mm': (2559, 2),
-             '40x20x880mm': (880, 1),
-             '40x60x880mm': (880, 1),
-             'F40x5x880mm': (880, 3),
-             '15x15x879mm': (879, 16),
-             '15x15x615mm': (615, 16),
-             'Staklo 872x608': (0, 4)
-             }
-             ],
-        #Uredu
+                '40x20x2559mm': (2559, 2),
+                '40x20x880mm': (880, 1),
+                '40x60x880mm': (880, 1),
+                'F40x5x880mm': (880, 3),
+                '15x15x879mm': (879, 16),
+                '15x15x615mm': (615, 16),
+                'Staklo 872x608': (0, 4)
+            }
+        ],
+        # Uredu
         "D4 2559 x 820": [
             {
                 '40x20x2559mm': (2559, 2),
@@ -447,7 +450,7 @@ def material(name):
                 'Staklo 772x608': (0, 4)
             }
         ],
-        #Uredu
+        # Uredu
         "D4 2294 x 920": [
             {'40x20x2294mm': (2294, 2),
              '40x20x880mm': (880, 1),
@@ -458,22 +461,22 @@ def material(name):
              'Staklo 872x542': (0, 4)
 
              }
-             ],
-        #Uredu
+        ],
+        # Uredu
         "D4 2294 x 820":
         [
             {
-            '40x20x2294mm': (2294, 2),
-             '40x20x780mm': (780, 1),
-             '40x60x780mm': (780, 1),
-             'F40x5x780mm': (780, 3),
-             '15x15x779mm': (779, 16),
-             '15x15x549mm': (549, 16),
-             'Staklo 772x542': (0, 4)
+                '40x20x2294mm': (2294, 2),
+                '40x20x780mm': (780, 1),
+                '40x60x780mm': (780, 1),
+                'F40x5x780mm': (780, 3),
+                '15x15x779mm': (779, 16),
+                '15x15x549mm': (549, 16),
+                'Staklo 772x542': (0, 4)
 
-             }
+            }
         ],
-        #Uredu
+        # Uredu
         'D3 2294 x 920': [
             {
                 '40x20x2294mm': (2994, 2),
@@ -485,7 +488,7 @@ def material(name):
                 'Staklo 872x727': (0, 3)
             }
         ],
-        #Uredu
+        # Uredu
         'D3 2559 x 920': [
             {
                 '40x20x2559mm': (2559, 2),
@@ -497,7 +500,7 @@ def material(name):
                 'Staklo 872x815': (0, 3)
             }
         ],
-        #Uredu
+        # Uredu
         'D3 2559 x 820': [
             {
                 '40x20x2559mm': (2559, 2),
@@ -509,7 +512,7 @@ def material(name):
                 'Staklo 727x815': (0, 3)
             }
         ],
-        #Uredu
+        # Uredu
         'D3 2294 x 820': [
             {
                 '40x20x2294mm': (2294, 2),
@@ -521,8 +524,8 @@ def material(name):
                 'Staklo 772x727': (0, 3)
             }
         ],
-        #Uredu
-        'DK 2559 x 820' : [
+        # Uredu
+        'DK 2559 x 820': [
             {
                 '40x20x2559mm': (2559, 2),
                 '40x20x780mm': (780, 1),
@@ -535,12 +538,12 @@ def material(name):
                 '15x15x579mm': (579, 8),
                 '15x15x1650mm': (1650, 8),
                 'Staklo 187x816': (0, 1),
-                'Staklo 187x1642': (0,1),
+                'Staklo 187x1642': (0, 1),
                 'Staklo 572x1642': (0, 1),
                 'Staklo 572x816': (0, 1)
             }
         ],
-        #Uredu
+        # Uredu
         "DK 2559 x 920": [
             {
                 '40x20x2559mm': (2559, 2),
@@ -559,7 +562,7 @@ def material(name):
                 'Staklo 212x1642': (0, 1)
             }
         ],
-        #Uredu
+        # Uredu
         "DK 2294 x 820": [
             {
                 '40x20x2294mm': (2294, 2),
@@ -578,7 +581,7 @@ def material(name):
                 'Staklo 572x1465': (0, 1)
             }
         ],
-        #Uredu
+        # Uredu
         'DK 2294 x 920': [
             {
                 '40x20x2294mm': (2294, 2),
@@ -597,7 +600,7 @@ def material(name):
                 'Staklo 212x1465': (0, 1)
             }
         ],
-        #Uredu
+        # Uredu
         'P3 2575 x 915': [
             {
                 '40x20x2575mm': (2575, 1),
@@ -609,7 +612,7 @@ def material(name):
 
             }
         ],
-        #Uredu
+        # Uredu
         'P3 2575 x 455': [
             {
                 '40x20x2575mm': (2575, 1),
@@ -620,7 +623,7 @@ def material(name):
                 'Staklo 407x815': (0, 3)
             }
         ],
-        #Uredu
+        # Uredu
         'P3 2310 x 915': [
             {
                 '40x20x2310mm': (2310, 1),
@@ -631,8 +634,8 @@ def material(name):
                 'Staklo 867x727': (0, 3)
             }
         ],
-        #Uredu
-        'P3 2310 X 455': [
+        # Uredu
+        'P3 2310 x 455': [
             {
                 '40x20x2310mm': (2130, 1),
                 '40x20x2214mm': (2214, 1),
@@ -642,7 +645,7 @@ def material(name):
                 'Staklo 407x727': (0, 3)
             }
         ],
-        #Uredu
+        # Uredu
         'P4 2310 x 455': [
             {
                 '40x20x2310mm': (2310, 1),
@@ -653,7 +656,7 @@ def material(name):
                 'Staklo 407x542': (0, 4)
             }
         ],
-        #Uredu
+        # Uredu
         'P4 2310 x 915': [
             {
                 '40x20x2310mm': (2310, 1),
@@ -664,7 +667,7 @@ def material(name):
                 'Staklo 867x542': (0, 4)
             }
         ],
-        #Uredu
+        # Uredu
         'P4 2575 x 915': [
             {
                 '40x20x2575mm': (2575, 1),
@@ -675,7 +678,7 @@ def material(name):
                 'Staklo 867x608': (0, 4)
             }
         ],
-        #Uredu
+        # Uredu
         'P4 2575 x 455': [
             {
                 '40x20x2575mm': (2575, 1),
@@ -686,7 +689,7 @@ def material(name):
                 'Staklo 407x608': (0, 4),
             }
         ],
-        #Uredu
+        # Uredu
         'PK 2575 x 455': [
             {
                 '40x20x2575mm': (2575, 1),
@@ -699,7 +702,7 @@ def material(name):
                 'Staklo 407x1643': (0, 1),
             }
         ],
-        #Uredu
+        # Uredu
         'PK 2575 x 915': [
             {
                 '40x20x2575mm': (2575, 1),
@@ -712,7 +715,7 @@ def material(name):
                 'Staklo 867x1643': (0, 1)
             }
         ],
-        #Uredu
+        # Uredu
         'PK 2310 x 915': [
             {
                 '40x20x2310mm': (2130, 1),
@@ -725,8 +728,8 @@ def material(name):
                 'Staklo 867x1465': (0, 1)
             }
         ],
-        #Uredu
-        'PK 2130 x 455': [
+        # Uredu
+        'PK 2310 x 455': [
             {
                 '40x20x2130mm': (2310, 1),
                 '40x20x2214mm': (2214, 1),
@@ -738,59 +741,49 @@ def material(name):
                 'Staklo 407x1465': (0, 1)
             }
         ]
-    
+
     }
 
     last = '2021-W' + name
     orders = db.session.query(Order).filter(Order.week == last).all()
-    list= []
+    list = []
     for order in orders:
         for item in order.placement:
             list.append((item.name, item.qty))
 
-
     num_dict = {}
     for t in list:
-       
+
         if t[0] in num_dict:
             num_dict[t[0]] = num_dict[t[0]]+t[1]
         else:
             num_dict[t[0]] = t[1]
-        
 
-
-    a = [(material[key], num_dict[key])for key in num_dict.keys() if key in material]
+    a = [(material[key], num_dict[key])
+         for key in num_dict.keys() if key in material]
     final_list = []
 
- 
     for i in a:
         for k, v in i[0][0].items():
             final_list.append((k, v[1] * i[1], (v[0] * i[1] / 100)))
-    
 
     material_dict = {}
 
-    print(final_list)
+    
     for t in final_list:
         if t[0] in material_dict.keys():
-         material_dict[t[0]][0] += t[1]
-         material_dict[t[0]][1] += t[2]
+            material_dict[t[0]][0] += t[1]
+            material_dict[t[0]][1] += (t[2] / 100 )
 
-             
-          
         elif t[0] not in material_dict.keys():
             material_dict[t[0]] = [t[1], t[2]]
-    
- 
-    print(material_dict)
-   
-    
+
     list_15 = []
     list_4020 = []
     list_4060 = []
     list_f = []
     dict1 = OrderedDict(sorted(material_dict.items()))
-    for k,v in dict1.items():
+    for k, v in dict1.items():
         if '15x15' in k:
             list_15.append(v[1])
         elif '40x20' in k:
@@ -799,10 +792,9 @@ def material(name):
             list_4060.append(v[1])
         elif 'F40x5' in k:
             list_f.append(v[1])
-    
 
+    return render_template('material.html', orders=orders, name=name, material_dict=dict1, list_15=sum(list_15), list_4020=sum(list_4020), list_4060=sum(list_4060), list_f=sum(list_f))
 
-    return render_template('material.html', orders=orders, name=name, material_dict=dict1, list_15=sum(list_15), list_4020=sum(list_4020),list_4060=sum(list_4060), list_f=sum(list_f))
 
 @core.route('/materialsrc', methods=['GET', 'POST'])
 def material_search():
@@ -811,6 +803,5 @@ def material_search():
 
     if form.submit.data and form.validate_on_submit:
         return redirect(url_for('core.material', name=form.name.data))
-    
-    return render_template('searchmat.html', form=form)
 
+    return render_template('searchmat.html', form=form)

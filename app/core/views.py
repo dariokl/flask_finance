@@ -748,8 +748,10 @@ def material(name):
         for item in order.placement:
             list.append((item.name, item.qty))
 
+
     num_dict = {}
     for t in list:
+       
         if t[0] in num_dict:
             num_dict[t[0]] = num_dict[t[0]]+t[1]
         else:
@@ -760,18 +762,28 @@ def material(name):
     a = [(material[key], num_dict[key])for key in num_dict.keys() if key in material]
     final_list = []
 
+ 
     for i in a:
         for k, v in i[0][0].items():
             final_list.append((k, v[1] * i[1], (v[0] * i[1] / 100)))
-            
+    
 
     material_dict = {}
+
+    print(final_list)
     for t in final_list:
-        if t[0] in material_dict:
-            material_dict[t[0]] = ((t[1] + t[1]), (t[2] +t[2]))
-        else:
-            material_dict[t[0]] = (t[1] , t[2])
-        
+        if t[0] in material_dict.keys():
+         material_dict[t[0]][0] += t[1]
+         material_dict[t[0]][1] += t[2]
+
+             
+          
+        elif t[0] not in material_dict.keys():
+            material_dict[t[0]] = [t[1], t[2]]
+    
+ 
+    print(material_dict)
+   
     
     list_15 = []
     list_4020 = []
@@ -787,6 +799,8 @@ def material(name):
             list_4060.append(v[1])
         elif 'F40x5' in k:
             list_f.append(v[1])
+    
+
 
     return render_template('material.html', orders=orders, name=name, material_dict=dict1, list_15=sum(list_15), list_4020=sum(list_4020),list_4060=sum(list_4060), list_f=sum(list_f))
 
